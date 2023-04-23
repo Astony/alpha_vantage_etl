@@ -16,7 +16,7 @@ jobs:
 
       - name: Configure kafka
         run: |
-          apt-get install librdkafka
+          brew install librdkafka
       - name: Run script
         run: |
           pip install -r requirements-dev.txt
