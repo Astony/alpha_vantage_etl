@@ -2,10 +2,10 @@ import requests
 from confluent_kafka.admin import NewTopic, AdminClient
 from confluent_kafka import KafkaException
 from src.kafka_modules.kafka_params import DEFAULT_TOPIC_PARAMS, DEFAULT_ADMIN_CLIENT_PARAMS
-from src.utils.logger import get_logger
+import logging
 
 
-logger = get_logger()
+logger = logging.getLogger(__name__)
 
 URL_TEMPLATE = 'https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY_EXTENDED' \
                '&symbol={}' \

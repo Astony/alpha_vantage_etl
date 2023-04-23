@@ -1,9 +1,9 @@
 from confluent_kafka import Consumer
-from src.utils.logger import get_logger
+import logging
 from.kafka_params import DEFAULT_CONSUMER_PARAMS
 
 
-logger = get_logger()
+logger = logging.getLogger(__name__)
 
 
 class StockConsumer:

@@ -1,9 +1,6 @@
 import pytest
 from unittest.mock import patch
 from requests import RequestException
-import sys
-sys.path.append('src')
-
 from src.kafka_modules.utils import get_parameters_for_api_slice, get_stocks_per_month, URL_TEMPLATE
 
 
@@ -48,5 +45,3 @@ def test_get_stocks_per_month_not_ok_status():
                 match="Can't get stocks info. Status code is {} \n{}".format(401, "Error")
         ):
             get_stocks_per_month(**params)
-
-
