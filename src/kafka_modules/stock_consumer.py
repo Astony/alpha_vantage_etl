@@ -1,7 +1,7 @@
-from confluent_kafka import Consumer, KafkaException
+from confluent_kafka import Consumer
 from src.utils.logger import get_logger
 from.kafka_params import DEFAULT_CONSUMER_PARAMS
-import csv
+
 
 logger = get_logger()
 

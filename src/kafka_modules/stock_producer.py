@@ -1,4 +1,4 @@
-from confluent_kafka import Producer, KafkaException
+from confluent_kafka import Producer
 from src.utils.logger import get_logger
 from .utils import get_stocks_per_month
 from.kafka_params import DEFAULT_PRODUCER_PARAMS
