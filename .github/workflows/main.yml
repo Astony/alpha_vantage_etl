@@ -6,9 +6,9 @@ on: push
 
 jobs:
   code_quality:
-    runs-on: ubuntu:18.04
+    runs-on: ubuntu-latest
     name: Tests
-    container: python:3.7.3
+    container: python:3.7
 
     steps:
       - name: Checkout code
