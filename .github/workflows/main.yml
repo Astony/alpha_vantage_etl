@@ -16,7 +16,6 @@ jobs:
 
       - name: Configure kafka
         run: |
-          apt-get update
           apt-get install librdkafka
       - name: Run script
         run: |
