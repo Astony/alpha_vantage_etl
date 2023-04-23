@@ -1,8 +1,10 @@
 import pytest
 from unittest.mock import patch
 from requests import RequestException
+import sys
+sys.path.append('src')
 
-from kafka_modules.utils import get_parameters_for_api_slice, get_stocks_per_month, URL_TEMPLATE
+from src.kafka_modules.utils import get_parameters_for_api_slice, get_stocks_per_month, URL_TEMPLATE
 
 
 class FakeResponse:

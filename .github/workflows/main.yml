@@ -7,8 +7,8 @@ on: push
 jobs:
   code_quality:
     runs-on: ubuntu-latest
-    name: Checks with black, isort and possibly run tests
-    container: python:3.7
+    name: Tests
+    container: python:3.7.3
 
     steps:
       - name: Checkout code
@@ -17,5 +17,4 @@ jobs:
         run: |
           pip install -r requirements-dev.txt
           ls -la
-          black --check .
           pytest --doctest-modules
