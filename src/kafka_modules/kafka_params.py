@@ -2,7 +2,6 @@ DEFAULT_TOPIC_PARAMS = {
     'replication_factor': 1
 }
 
-
 DEFAULT_PRODUCER_PARAMS = {
     'bootstrap.servers': 'localhost:9092'
 }
