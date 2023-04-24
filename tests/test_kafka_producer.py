@@ -15,5 +15,3 @@ def test_produce_stocks():
             with patch.object(StockProducer, 'poll'):
                 StockProducer().produce_stocks(**params)
                 assert mock_produce.call_count == 12
-
-
