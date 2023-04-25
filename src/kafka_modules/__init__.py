@@ -1,3 +1,4 @@
-# from .stock_consumer import StockConsumer
-# from .stock_producer import StockProducer
-# from .utils import create_new_topic, get_admin_client, check_topic_exist
+from .stock_consumer import StockConsumer
+from .stock_producer import StockProducer
+from .kafka_utils import create_new_topic, check_topic_exist
+from .kafka_params import *

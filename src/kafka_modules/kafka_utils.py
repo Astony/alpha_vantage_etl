@@ -44,10 +44,12 @@ def get_stocks_per_month(company_name: str, api_key: str, time_interval: str, mo
     return response.text
 
 
-def get_admin_client(conf: dict = DEFAULT_ADMIN_CLIENT_PARAMS) -> AdminClient:
-    """Get adminn client instance"""
-    logger.info('Create admin client with params %s', conf)
-    return AdminClient(conf)
+def check_topic_exist(topic: str, client: AdminClient):
+    """Check if topic exists in kafka metadata"""
+    topics = client.list_topics().topics
+    logger.info('Topic metadata is %s', topics)
+    if topic not in topics:
+        raise KafkaException('Topic {} has not been created'.format(topic))
 
 
 def create_new_topic(topic: str, num_partitions: int, client: AdminClient) -> None:
@@ -66,11 +68,3 @@ def create_new_topic(topic: str, num_partitions: int, client: AdminClient) -> No
     res_dict = client.create_topics([topic_obj])
     res_dict[topic].result()
     logger.info("Create new kafka topic with params %s", params)
-
-
-def check_topic_exist(client: AdminClient, topic_name: str):
-    """Check if topic exists in kafka metadata"""
-    topics = client.list_topics().topics
-    logger.info('Topic metadata is %s', topics)
-    if topic_name not in topics:
-        raise KafkaException('Topic {} has not been created'.format(topic_name))

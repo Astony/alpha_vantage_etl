@@ -1,7 +1,7 @@
 import pytest
 from unittest.mock import patch
 from requests import RequestException
-from src.kafka_modules.utils import get_parameters_for_api_slice, get_stocks_per_month, URL_TEMPLATE
+from src.kafka_modules.kafka_utils import get_parameters_for_api_slice, get_stocks_per_month, URL_TEMPLATE
 
 
 @pytest.mark.parametrize(
