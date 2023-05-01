@@ -4,15 +4,6 @@ import time
 import os
 
 
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s [%(levelname)s] %(message)s",
-    handlers=[
-        logging.FileHandler("debug.log"),
-        logging.StreamHandler()
-    ]
-)
-
 logger = logging.getLogger(__name__)
 
 
@@ -49,13 +40,7 @@ class StockConsumer(Consumer):
     def get_save_path_with_target_name(self, company_name: str):
         """Update save path with timestamp and target name"""
         ts = str(int(time.time()))
-        return os.path.join(self._metadata['save_path'], company_name, ts)
-
-    def get_sink_kwargs(self, data:str, company_name: str):
-        kwargs = {'data': data}
-        if self._metadata['sink_type'] == 'local':
-            kwargs['company_name'] = company_name
-        return kwargs
+        return os.path.join(self._metadata['save_dir_path'], company_name, ts)
 
     def consume_stocks(self, topic: str, messages_number: int) -> None:
         """Produce stocks

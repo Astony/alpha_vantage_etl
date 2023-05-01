@@ -17,5 +17,5 @@ DEFAULT_CONSUMER_PARAMS = {
         'auto.offset.reset': 'earliest'
     },
     'sink_type': 'local',
-    'save_path': ''
+    'save_dir_path': ''
 }

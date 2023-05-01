@@ -9,4 +9,4 @@ def test_consume_stocks(fake_message):
         with patch.object(StockConsumer, 'poll', lambda *args, **kwargs: fake_message()):
             with patch.object(StockConsumer, '_send_data_to_sink') as mock_result:
                 StockConsumer(DEFAULT_CONSUMER_PARAMS).consume_stocks('test_topic', 1)
-                assert mock_result.call_args_list == [call('fake_value')]
+                assert mock_result.call_args_list == [call('fake_value', company_name='test_topic', file_name='part_1.csv')]
