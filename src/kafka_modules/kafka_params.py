@@ -3,15 +3,19 @@ DEFAULT_TOPIC_PARAMS = {
 }
 
 DEFAULT_PRODUCER_PARAMS = {
-    'bootstrap.servers': 'localhost:9092'
+    'config': {'bootstrap.servers': 'localhost:9092'}
 }
 
 DEFAULT_ADMIN_CLIENT_PARAMS = {
-    'bootstrap.servers': 'localhost:9092'
+    'config': {'bootstrap.servers': 'localhost:9092'}
 }
 
 DEFAULT_CONSUMER_PARAMS = {
-    'bootstrap.servers': 'localhost:9092',
-    'group.id': 'python-consumer',
-    'auto.offset.reset': 'earliest'
+    'config': {
+        'bootstrap.servers': 'localhost:9092',
+        'group.id': 'python-consumer',
+        'auto.offset.reset': 'earliest'
+    },
+    'sink_type': 'local',
+    'save_dir_path': ''
 }
