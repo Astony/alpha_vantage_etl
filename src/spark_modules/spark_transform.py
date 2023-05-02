@@ -2,7 +2,7 @@ import logging
 
 from pyspark.sql import DataFrame, functions as F, Window
 
-from src.spark_modules.spark_io import Columns
+from .spark_io import Columns
 
 
 logger = logging.getLogger(__name__)
@@ -22,7 +22,6 @@ def clean_values(sdf: DataFrame) -> DataFrame:
     logger.info("Start to filter incorrect values")
     sdf = sdf.dropDuplicates()
     sdf = sdf.dropna()
-    sdf = sdf.withColumn(Columns.TIME, F.to_date(Columns.TIME, 'dd-MM-yy HH:mm:ss'))
     return sdf
 
 
@@ -65,4 +64,6 @@ def transform_stocks(stocks_sdf: DataFrame) -> DataFrame:
     logger.info('Start to transform raw stocks')
     stocks_sdf = cast_uppercase_to_columns(stocks_sdf)
     stocks_sdf = clean_values(stocks_sdf)
-    return get_month_profit(stocks_sdf)
+    profit_sdf = get_month_profit(stocks_sdf).cache()
+    logger.info('Number of rows in profit sdf: %s', profit_sdf.count())
+    return profit_sdf

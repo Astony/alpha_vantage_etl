@@ -4,10 +4,9 @@ import os
 import datetime
 
 from pyspark.sql import SparkSession
-from pyspark.sql.types import StructType, StructField, IntegerType, StringType, DateType, FloatType
+from pyspark.sql.types import StructType, StructField, IntegerType, StringType, TimestampType, FloatType
 
 from src.spark_modules.spark_io import Columns
-
 
 
 class FakeResponse:
@@ -26,7 +25,7 @@ def fake_response():
 
 
 class FakeMessage:
-    """Fake response class for tests"""
+    """Fake message class for tests"""
 
     def value(self):
         return 'fake_value'.encode('utf-8')
@@ -61,7 +60,7 @@ def spark_session():
 
 
 class FakeCSV:
-    def __init__(self, session:SparkSession):
+    def __init__(self, session: SparkSession):
         self.session = session
         self.call_count = 0
 
@@ -86,7 +85,7 @@ def fake_session(spark_session):
 
 
 @pytest.fixture()
-def test_schema_io():
+def schema_io():
     return StructType([
         StructField('id', IntegerType(), True),
         StructField('path', StringType(), True),
@@ -94,9 +93,9 @@ def test_schema_io():
 
 
 @pytest.fixture()
-def expected_sdf_io(spark_session, test_schema_io):
+def expected_sdf_io(spark_session, schema_io):
     data = [(1, 'path_1'), (2, 'path_2')]
-    return spark_session.createDataFrame(data, test_schema_io)
+    return spark_session.createDataFrame(data, schema_io)
 
 
 def make_not_empty_dir(subdir_name, filename):
@@ -120,32 +119,29 @@ def create_test_folder():
 
 
 @pytest.fixture()
-def test_schema_io():
+def schema_transform():
     return StructType([
-        StructField('id', IntegerType(), True),
-        StructField('path', StringType(), True),
-    ])
-
-
-@pytest.fixture()
-def test_schema_transform():
-    return StructType([
-        StructField(Columns.TIME, DateType(), True),
+        StructField(Columns.TIME, TimestampType(), True),
         StructField(Columns.CLOSE, IntegerType(), True),
     ])
 
 
 @pytest.fixture()
-def test_sdf_transform(spark_session, test_schema_transform):
+def test_sdf_transform(spark_session, schema_transform):
     data = [
-        (datetime.datetime(day=1, month=1, year=2007), 100),
-        (datetime.datetime(day=15, month=1, year=2007), 150),
+        (datetime.datetime(day=1, month=1, year=2007, hour=12, minute=0, second=0), 100),
+        (datetime.datetime(day=1, month=1, year=2007, hour=13, minute=0, second=0), 50),
+        (datetime.datetime(day=1, month=1, year=2007, hour=14, minute=0, second=0), 60),
+        (datetime.datetime(day=15, month=1, year=2007, hour=12, minute=0, second=0), 100),
+        (datetime.datetime(day=15, month=1, year=2007, hour=13, minute=0, second=0), 150),
+        (datetime.datetime(day=25, month=1, year=2007, hour=12, minute=0, second=0), 100),
+        (datetime.datetime(day=25, month=1, year=2007, hour=13, minute=0, second=0), 200),
         (datetime.datetime(day=25, month=1, year=2007), 200),
         (datetime.datetime(day=1, month=2, year=2007), 200),
         (datetime.datetime(day=25, month=2, year=2007), 100),
 
     ]
-    return spark_session.createDataFrame(data, test_schema_transform)
+    return spark_session.createDataFrame(data, schema_transform)
 
 
 @pytest.fixture()

@@ -1,11 +1,11 @@
 import requests
 from confluent_kafka.admin import NewTopic, AdminClient
-from confluent_kafka import KafkaException
-from src.kafka_modules.kafka_params import DEFAULT_TOPIC_PARAMS, DEFAULT_ADMIN_CLIENT_PARAMS
+from .kafka_params import DEFAULT_TOPIC_PARAMS
 import logging
 
 
 logger = logging.getLogger(__name__)
+
 
 URL_TEMPLATE = 'https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY_EXTENDED' \
                '&symbol={}' \
@@ -48,8 +48,7 @@ def check_topic_exist(topic: str, client: AdminClient):
     """Check if topic exists in kafka metadata"""
     topics = client.list_topics().topics
     logger.info('Topic metadata is %s', topics)
-    if topic not in topics:
-        raise KafkaException('Topic {} has not been created'.format(topic))
+    return topic in topics
 
 
 def create_new_topic(topic: str, num_partitions: int, client: AdminClient) -> None:
@@ -68,3 +67,14 @@ def create_new_topic(topic: str, num_partitions: int, client: AdminClient) -> No
     res_dict = client.create_topics([topic_obj])
     res_dict[topic].result()
     logger.info("Create new kafka topic with params %s", params)
+
+
+def delete_topics(topics: list, client: AdminClient):
+    """Delete kafka topic"""
+    fs = client.delete_topics(topics, operation_timeout=30)
+    for topic, f in fs.items():
+        try:
+            f.result()  # The result itself is None
+            logger.info("Topic %s deleted", topic)
+        except Exception as e:
+            logger.info("Failed to delete topic %s: %s", topic, str(e))
