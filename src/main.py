@@ -2,8 +2,9 @@ import logging
 import os.path
 import argparse
 import sys
-sys.path.append('/src/kafka_modules')
-sys.path.append('/src/spark_modules')
+cwd = os.getcwd()
+sys.path.append(os.path.join(cwd, 'src', 'kafka_modules'))
+sys.path.append(os.path.join(cwd, 'src', 'spark_modules'))
 
 from confluent_kafka.admin import AdminClient
 from pyspark.sql import SparkSession, DataFrame, functions as F
