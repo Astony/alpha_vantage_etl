@@ -1,6 +1,9 @@
 import logging
 import os.path
 import argparse
+import sys
+sys.path.append('/src/kafka_modules')
+sys.path.append('/src/spark_modules')
 
 from confluent_kafka.admin import AdminClient
 from pyspark.sql import SparkSession, DataFrame, functions as F
@@ -10,6 +13,7 @@ from kafka_modules import StockConsumer, StockProducer,\
     DEFAULT_CONSUMER_PARAMS
 from spark_modules import read_execution_data_csv, get_the_last_execution_data, transform_stocks,\
     save_sdf_to_postgress, DEFAULT_SPARK_PARAMS
+
 
 logging.basicConfig(
     level=logging.INFO,
