@@ -1,7 +1,6 @@
 from confluent_kafka import Producer
 import logging
-from src.kafka_modules.kafka_utils import get_stocks_per_month
-from src.kafka_modules.kafka_params import DEFAULT_PRODUCER_PARAMS
+from .kafka_utils import get_stocks_per_month
 
 
 logger = logging.getLogger(__name__)
